@@ -9,6 +9,14 @@ class SearchProvider with ChangeNotifier {
   String _currentTopic = '';
   String get currentTopic => _currentTopic;
 
+  String _selectedChart = 'publications';
+  String get selectedChart => _selectedChart;
+
+  void setSelectedChart(String chart) {
+    _selectedChart = chart;
+    notifyListeners();
+  }
+
   // State variables for Publications
   List<Publication> _publications = [];
   List<Publication> get publications => _publications;
@@ -94,4 +102,49 @@ class SearchProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  // Computed data for Author Productivity vs Impact Scatter Plot
+  List<AuthorImpactPoint> get authorImpactPoints {
+    final Map<String, _AuthorStats> stats = {};
+    for (var pub in _publications) {
+      for (var author in pub.authors) {
+        stats.update(
+          author,
+          (existing) => _AuthorStats(
+            count: existing.count + 1,
+            citations: existing.citations + pub.citedByCount,
+          ),
+          ifAbsent: () => _AuthorStats(count: 1, citations: pub.citedByCount),
+        );
+      }
+    }
+    
+    final list = stats.entries.map((e) => AuthorImpactPoint(
+      authorName: e.key,
+      paperCount: e.value.count,
+      totalCitations: e.value.citations,
+    )).toList();
+    
+    // Sort by total citations descending
+    list.sort((a, b) => b.totalCitations.compareTo(a.totalCitations));
+    return list.take(25).toList();
+  }
+}
+
+class AuthorImpactPoint {
+  final String authorName;
+  final int paperCount;
+  final int totalCitations;
+
+  AuthorImpactPoint({
+    required this.authorName,
+    required this.paperCount,
+    required this.totalCitations,
+  });
+}
+
+class _AuthorStats {
+  final int count;
+  final int citations;
+  _AuthorStats({required this.count, required this.citations});
 }
