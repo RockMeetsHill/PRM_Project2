@@ -46,6 +46,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: NavigationBar(
+        height: 60,
         selectedIndex: _currentIndex,
         onDestinationSelected: (index) => _onItemTapped(index, context),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

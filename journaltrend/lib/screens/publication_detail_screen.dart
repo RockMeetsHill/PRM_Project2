@@ -10,8 +10,10 @@ class PublicationDetailScreen extends StatelessWidget {
   Future<void> _launchDOI() async {
     if (publication.doi.isNotEmpty) {
       final url = Uri.parse(publication.doi);
-      if (await canLaunchUrl(url)) {
-        await launchUrl(url);
+      try {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      } catch (e) {
+        debugPrint('Could not launch DOI URL: $e');
       }
     }
   }
@@ -22,63 +24,67 @@ class PublicationDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Publication Detail'),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              publication.title,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            _buildInfoRow(Icons.calendar_today, 'Year', publication.publicationYear.toString()),
-            const SizedBox(height: 8),
-            _buildInfoRow(Icons.bar_chart, 'Citations', publication.citedByCount.toString()),
-            const SizedBox(height: 8),
-            _buildInfoRow(Icons.book, 'Journal', publication.journalName),
-            
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 16),
-            
-            Text('Authors', style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: publication.authors.map((author) => Chip(label: Text(author))).toList(),
-            ),
-            
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 16),
-
-            if (publication.abstractText != null && publication.abstractText!.isNotEmpty) ...[
-              Text('Abstract', style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 8),
+      body: ScrollConfiguration(
+        behavior: const ScrollBehavior().copyWith(overscroll: false),
+        child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
-                publication.abstractText!,
-                style: const TextStyle(height: 1.5),
+                publication.title,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
               ),
+              const SizedBox(height: 16),
+              _buildInfoRow(Icons.calendar_today, 'Year', publication.publicationYear.toString()),
+              const SizedBox(height: 8),
+              _buildInfoRow(Icons.bar_chart, 'Citations', publication.citedByCount.toString()),
+              const SizedBox(height: 8),
+              _buildInfoRow(Icons.book, 'Journal', publication.journalName),
+              
               const SizedBox(height: 16),
               const Divider(),
               const SizedBox(height: 16),
-            ],
-
-            if (publication.doi.isNotEmpty)
-              Center(
-                child: ElevatedButton.icon(
-                  onPressed: _launchDOI,
-                  icon: const Icon(Icons.link),
-                  label: const Text('Open DOI in Browser'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              
+              Text('Authors', style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: publication.authors.map((author) => Chip(label: Text(author))).toList(),
+              ),
+              
+              const SizedBox(height: 16),
+              const Divider(),
+              const SizedBox(height: 16),
+  
+              if (publication.abstractText != null && publication.abstractText!.isNotEmpty) ...[
+                Text('Abstract', style: Theme.of(context).textTheme.titleLarge),
+                const SizedBox(height: 8),
+                Text(
+                  publication.abstractText!,
+                  style: const TextStyle(height: 1.5),
+                ),
+                const SizedBox(height: 16),
+                const Divider(),
+                const SizedBox(height: 16),
+              ],
+  
+              if (publication.doi.isNotEmpty)
+                Center(
+                  child: ElevatedButton.icon(
+                    onPressed: _launchDOI,
+                    icon: const Icon(Icons.link),
+                    label: const Text('Open DOI in Browser'),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
