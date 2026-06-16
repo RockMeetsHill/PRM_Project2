@@ -37,10 +37,29 @@ Ensure you have the following installed on your system:
 ## How to Run the App
 
 ### 1. Run on an Emulator or Connected Device
-Make sure an emulator is running or your physical device is connected, then run:
-```bash
-flutter run
-```
+
+If you are using an Android Emulator, follow these steps to list, start, and run the application:
+
+1. **List all available emulators** on your system:
+   ```bash
+   flutter emulators
+   ```
+
+2. **Launch a specific emulator** (e.g., `Small_Phone`):
+   ```bash
+   flutter emulators --launch Small_Phone
+   ```
+
+3. **Check connected devices** to ensure the emulator is online and get its device ID (e.g., `emulator-5554`):
+   ```bash
+   flutter devices
+   ```
+
+4. **Run the application** on the active emulator:
+   ```bash
+   flutter run -d emulator-5554
+   ```
+   *(Or simply run `flutter run` if it is the only active mobile device).*
 
 ### 2. Run on Google Chrome (Quick Web Preview)
 If you do not have an emulator or device setup, you can test the UI layout instantly in your browser:

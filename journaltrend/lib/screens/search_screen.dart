@@ -123,29 +123,31 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
 
           // suggestion chips container
-          Padding(
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Wrap(
-              spacing: 8.0,
-              runSpacing: 4.0,
+            child: Row(
               children: _suggestions.map((chipLabel) {
-                return ChoiceChip(
-                  label: Text(chipLabel),
-                  selected: _searchController.text == chipLabel,
-                  onSelected: (selected) {
-                    if (selected) {
-                      _searchController.text = chipLabel;
-                      _triggerSearch(chipLabel);
-                    }
-                  },
-                  selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
-                  labelStyle: TextStyle(
-                    color: _searchController.text == chipLabel
-                        ? AppTheme.primaryColor
-                        : Colors.black87,
-                    fontWeight: _searchController.text == chipLabel
-                        ? FontWeight.bold
-                        : FontWeight.normal,
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: ChoiceChip(
+                    label: Text(chipLabel),
+                    selected: _searchController.text == chipLabel,
+                    onSelected: (selected) {
+                      if (selected) {
+                        _searchController.text = chipLabel;
+                        _triggerSearch(chipLabel);
+                      }
+                    },
+                    selectedColor: AppTheme.primaryColor.withValues(alpha: 0.2),
+                    labelStyle: TextStyle(
+                      color: _searchController.text == chipLabel
+                          ? AppTheme.primaryColor
+                          : Colors.black87,
+                      fontWeight: _searchController.text == chipLabel
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
                   ),
                 );
               }).toList(),
