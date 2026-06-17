@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../models/publication.dart';
 import '../providers/library_provider.dart';
@@ -28,6 +29,26 @@ class PublicationDetailScreen extends StatelessWidget {
         }
       }
     }
+  }
+
+  String _generateAPACitation() {
+    final authorsStr = publication.authors.isNotEmpty 
+        ? publication.authors.join(', ') 
+        : 'Unknown Author';
+    final yearStr = publication.publicationYear > 0 
+        ? '(${publication.publicationYear})' 
+        : '(n.d.)';
+    final titleStr = publication.title.endsWith('.') 
+        ? publication.title 
+        : '${publication.title}.';
+    final journalStr = publication.journalName.isNotEmpty 
+        ? publication.journalName 
+        : 'Unknown Journal';
+    final doiStr = publication.doi.isNotEmpty 
+        ? ' ${publication.doi}' 
+        : '';
+        
+    return '$authorsStr $yearStr. $titleStr $journalStr.$doiStr';
   }
 
   @override
@@ -62,6 +83,19 @@ class PublicationDetailScreen extends StatelessWidget {
                   );
                 },
               );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.content_copy),
+            tooltip: 'Copy Citation',
+            onPressed: () async {
+              final citation = _generateAPACitation();
+              await Clipboard.setData(ClipboardData(text: citation));
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Citation copied to clipboard!')),
+                );
+              }
             },
           ),
           IconButton(
