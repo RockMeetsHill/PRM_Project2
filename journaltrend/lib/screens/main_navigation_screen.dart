@@ -27,6 +27,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       case 2:
         context.go('/dashboard');
         break;
+      case 3:
+        context.go('/library');
+        break;
     }
   }
 
@@ -36,6 +39,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     if (location.startsWith('/search')) return 0;
     if (location.startsWith('/trends')) return 1;
     if (location.startsWith('/dashboard')) return 2;
+    if (location.startsWith('/library')) return 3;
     return 0;
   }
 
@@ -66,6 +70,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             icon: Icon(Icons.dashboard_outlined),
             selectedIcon: Icon(Icons.dashboard),
             label: 'Dashboard',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.bookmark_outline),
+            selectedIcon: Icon(Icons.bookmark),
+            label: 'Library',
           ),
         ],
       ),

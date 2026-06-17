@@ -1,5 +1,8 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/publication.dart';
+import '../providers/library_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PublicationDetailScreen extends StatelessWidget {
@@ -33,10 +36,44 @@ class PublicationDetailScreen extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Publication Detail'),
+        title: const Text('Publication Detail', style: TextStyle(fontWeight: FontWeight.w600)),
         elevation: 0,
         centerTitle: true,
+        backgroundColor: colorScheme.surface.withValues(alpha: 0.6),
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
+            child: Container(color: Colors.transparent),
+          ),
+        ),
+        actions: [
+          Consumer<LibraryProvider>(
+            builder: (context, library, child) {
+              final isSaved = library.isSaved(publication.id);
+              return IconButton(
+                icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_outline),
+                tooltip: isSaved ? 'Remove from Library' : 'Save to Library',
+                onPressed: () {
+                  library.toggleSaved(publication);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(isSaved ? 'Removed from library' : 'Saved to library!')),
+                  );
+                },
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.ios_share),
+            tooltip: 'Share',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Share feature coming soon!')),
+              );
+            },
+          ),
+        ],
       ),
       floatingActionButton: publication.doi.isNotEmpty
           ? FloatingActionButton.extended(
@@ -49,7 +86,12 @@ class PublicationDetailScreen extends StatelessWidget {
         behavior: const ScrollBehavior().copyWith(overscroll: false),
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 80.0),
+          padding: EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            top: MediaQuery.of(context).padding.top + kToolbarHeight + 24.0,
+            bottom: 80.0,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -123,21 +165,7 @@ class PublicationDetailScreen extends StatelessWidget {
                   child: Text('Abstract', style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
                 ),
                 const SizedBox(height: 12),
-                Card(
-                  elevation: 0,
-                  color: colorScheme.surface,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: BorderSide(color: colorScheme.outlineVariant),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: SelectableText(
-                      publication.abstractText!,
-                      style: theme.textTheme.bodyMedium?.copyWith(height: 1.6),
-                    ),
-                  ),
-                ),
+                _ExpandableAbstract(text: publication.abstractText!),
               ],
             ],
           ),
@@ -171,6 +199,82 @@ class PublicationDetailScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ExpandableAbstract extends StatefulWidget {
+  final String text;
+
+  const _ExpandableAbstract({required this.text});
+
+  @override
+  State<_ExpandableAbstract> createState() => _ExpandableAbstractState();
+}
+
+class _ExpandableAbstractState extends State<_ExpandableAbstract> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Card(
+      elevation: 0,
+      color: Colors.black.withValues(alpha: 0.3),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AnimatedCrossFade(
+              firstChild: Text(
+                widget.text,
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.bodyMedium?.copyWith(height: 1.6),
+              ),
+              secondChild: SelectableText(
+                widget.text,
+                style: theme.textTheme.bodyMedium?.copyWith(height: 1.6),
+              ),
+              crossFadeState: _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+              duration: const Duration(milliseconds: 300),
+            ),
+            const SizedBox(height: 12),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    _isExpanded ? 'Show Less' : 'Read More',
+                    style: TextStyle(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(
+                    _isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    color: colorScheme.primary,
+                    size: 20,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

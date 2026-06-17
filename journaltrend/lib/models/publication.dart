@@ -79,4 +79,30 @@ class Publication {
       abstractText: parsedAbstract,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'publicationYear': publicationYear,
+      'citedByCount': citedByCount,
+      'journalName': journalName,
+      'doi': doi,
+      'authors': authors,
+      'abstractText': abstractText,
+    };
+  }
+
+  factory Publication.fromMap(Map<String, dynamic> map) {
+    return Publication(
+      id: map['id'] ?? '',
+      title: map['title'] ?? '',
+      publicationYear: map['publicationYear']?.toInt() ?? 0,
+      citedByCount: map['citedByCount']?.toInt() ?? 0,
+      journalName: map['journalName'] ?? '',
+      doi: map['doi'] ?? '',
+      authors: List<String>.from(map['authors'] ?? []),
+      abstractText: map['abstractText'],
+    );
+  }
 }
