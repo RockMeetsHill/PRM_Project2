@@ -5,7 +5,7 @@ import '../providers/search_provider.dart';
 import '../models/trend_data.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class DashboardScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.dashboard_outlined, size: 80, color: Colors.indigoAccent.withOpacity(0.5)),
+                  Icon(Icons.dashboard_outlined, size: 80, color: Colors.indigoAccent.withValues(alpha: 0.5)),
                   const SizedBox(height: 16),
                   Text(
                     'No Search Topic Yet',
@@ -119,7 +119,7 @@ class DashboardScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Icon(Icons.dashboard_rounded, color: Colors.indigoAccent.withOpacity(0.8), size: 28),
+                    Icon(Icons.dashboard_rounded, color: Colors.indigoAccent.withValues(alpha: 0.8), size: 28),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -175,9 +175,9 @@ class DashboardScreen extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.04),
+                      color: Colors.white.withValues(alpha: 0.04),
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withOpacity(0.08)),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -270,9 +270,9 @@ class DashboardScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.04),
+        color: Colors.white.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.08)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,7 +280,7 @@ class DashboardScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon, color: color.withOpacity(0.8), size: 16),
+              Icon(icon, color: color.withValues(alpha: 0.8), size: 16),
               const Icon(Icons.more_horiz_rounded, color: Colors.white24, size: 14),
             ],
           ),
@@ -320,9 +320,9 @@ class DashboardScreen extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.04),
+          color: Colors.white.withValues(alpha: 0.04),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withOpacity(0.08)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
         ),
         child: Center(
           child: Text(
@@ -335,22 +335,22 @@ class DashboardScreen extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.04),
+        color: Colors.white.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.08)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: items.length,
-        separatorBuilder: (_, __) => Divider(height: 1, color: Colors.white.withOpacity(0.05)),
+        separatorBuilder: (_, _) => Divider(height: 1, color: Colors.white.withValues(alpha: 0.05)),
         itemBuilder: (context, index) {
           final item = items[index];
           return ListTile(
             dense: true,
             leading: CircleAvatar(
               radius: 14,
-              backgroundColor: color.withOpacity(0.1),
+              backgroundColor: color.withValues(alpha: 0.1),
               child: Text(
                 '${index + 1}',
                 style: GoogleFonts.outfit(
@@ -365,7 +365,7 @@ class DashboardScreen extends StatelessWidget {
               style: GoogleFonts.inter(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withValues(alpha: 0.9),
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -375,7 +375,7 @@ class DashboardScreen extends StatelessWidget {
               style: GoogleFonts.outfit(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.white.withValues(alpha: 0.5),
               ),
             ),
           );

@@ -6,7 +6,7 @@ import '../providers/search_provider.dart';
 import 'publication_detail_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -78,12 +78,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.05),
+                    color: Colors.white.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white.withOpacity(0.12)),
+                    border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -144,9 +144,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         return Container(
                           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.04),
+                            color: Colors.white.withValues(alpha: 0.04),
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.white.withOpacity(0.08)),
+                            border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16),
@@ -254,9 +254,9 @@ class _SearchScreenState extends State<SearchScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -285,13 +285,13 @@ class _SearchScreenState extends State<SearchScreen> {
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.04),
+            color: Colors.white.withValues(alpha: 0.04),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withOpacity(0.05)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
           ),
           child: Shimmer.fromColors(
-            baseColor: Colors.white.withOpacity(0.05),
-            highlightColor: Colors.white.withOpacity(0.12),
+            baseColor: Colors.white.withValues(alpha: 0.05),
+            highlightColor: Colors.white.withValues(alpha: 0.12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -377,7 +377,7 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.info_outline_rounded, size: 64, color: Colors.amberAccent.withOpacity(0.5)),
+            Icon(Icons.info_outline_rounded, size: 64, color: Colors.amberAccent.withValues(alpha: 0.5)),
             const SizedBox(height: 16),
             Text(
               'No Results Found',
@@ -424,7 +424,7 @@ class _SearchScreenState extends State<SearchScreen> {
               error,
               style: GoogleFonts.inter(
                 fontSize: 13,
-                color: Colors.pinkAccent.withOpacity(0.8),
+                color: Colors.pinkAccent.withValues(alpha: 0.8),
               ),
               textAlign: TextAlign.center,
             ),

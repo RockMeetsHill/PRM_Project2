@@ -3,10 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../providers/search_provider.dart';
-import '../models/trend_data.dart';
 
 class TrendAnalysisScreen extends StatefulWidget {
-  const TrendAnalysisScreen({Key? key}) : super(key: key);
+  const TrendAnalysisScreen({super.key});
 
   @override
   State<TrendAnalysisScreen> createState() => _TrendAnalysisScreenState();
@@ -32,7 +31,7 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.search_rounded, size: 80, color: Colors.indigoAccent.withOpacity(0.5)),
+                  Icon(Icons.search_rounded, size: 80, color: Colors.indigoAccent.withValues(alpha: 0.5)),
                   const SizedBox(height: 16),
                   Text(
                     'No Search Topic Yet',
@@ -113,9 +112,9 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.indigoAccent.withOpacity(0.2),
+                            color: Colors.indigoAccent.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(6),
-                            border: Border.all(color: Colors.indigoAccent.withOpacity(0.4)),
+                            border: Border.all(color: Colors.indigoAccent.withValues(alpha: 0.4)),
                           ),
                           child: Text(
                             provider.currentTopic,
@@ -178,9 +177,9 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.05),
+                        color: Colors.white.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.white.withOpacity(0.12)),
+                        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -246,7 +245,7 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
   Widget _buildPublicationsTrendTab(SearchProvider provider) {
     final data = provider.yearlyTrends.where((d) {
       final y = int.tryParse(d.label);
-      return y != null && y >= 2000 && y <= DateTime.now().year + 1;
+      return y != null && y >= 2000 && y <= DateTime.now().year;
     }).toList();
 
     if (data.isEmpty) {
@@ -261,10 +260,10 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
-        color: Colors.white.withOpacity(0.04),
+        color: Colors.white.withValues(alpha: 0.04),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Colors.white.withOpacity(0.08)),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -299,7 +298,7 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                       show: true,
                       drawVerticalLine: false,
                       getDrawingHorizontalLine: (value) => FlLine(
-                        color: Colors.white.withOpacity(0.05),
+                        color: Colors.white.withValues(alpha: 0.05),
                         strokeWidth: 1,
                       ),
                     ),
@@ -311,7 +310,7 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                           getTitlesWidget: (value, meta) {
                             return Text(
                               value.toInt().toString(),
-                              style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 10),
+                              style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 10),
                             );
                           },
                         ),
@@ -323,11 +322,16 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                           showTitles: true,
                           interval: 5,
                           getTitlesWidget: (value, meta) {
+                            final intYear = value.toInt();
+                            // Skip 2025 to avoid overlap with 2026
+                            if (intYear == 2025) {
+                              return const SizedBox.shrink();
+                            }
                             return Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
-                                value.toInt().toString(),
-                                style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 10),
+                                intYear.toString(),
+                                style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 10),
                               ),
                             );
                           },
@@ -352,7 +356,7 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                         dotData: const FlDotData(show: true),
                         belowBarData: BarAreaData(
                           show: true,
-                          color: Colors.tealAccent.withOpacity(0.1),
+                          color: Colors.tealAccent.withValues(alpha: 0.1),
                         ),
                       ),
                     ],
@@ -379,10 +383,10 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
-        color: Colors.white.withOpacity(0.04),
+        color: Colors.white.withValues(alpha: 0.04),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Colors.white.withOpacity(0.08)),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -426,7 +430,7 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                                   angle: -0.3,
                                   child: Text(
                                     name,
-                                    style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 8),
+                                    style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 8),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -493,10 +497,10 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
-        color: Colors.white.withOpacity(0.04),
+        color: Colors.white.withValues(alpha: 0.04),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Colors.white.withOpacity(0.08)),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -595,13 +599,20 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
     final double maxX = (points.map((p) => p.paperCount).reduce((a, b) => a > b ? a : b) + 1).toDouble();
     final double maxY = (points.map((p) => p.totalCitations).reduce((a, b) => a > b ? a : b) * 1.1).toDouble();
 
+    double xInterval = 1;
+    if (maxX > 20) {
+      xInterval = 5;
+    } else if (maxX > 10) {
+      xInterval = 2;
+    }
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Card(
-        color: Colors.white.withOpacity(0.04),
+        color: Colors.white.withValues(alpha: 0.04),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
-          side: BorderSide(color: Colors.white.withOpacity(0.08)),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -622,8 +633,8 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                   ScatterChartData(
                     gridData: FlGridData(
                       show: true,
-                      getDrawingHorizontalLine: (value) => FlLine(color: Colors.white.withOpacity(0.05)),
-                      getDrawingVerticalLine: (value) => FlLine(color: Colors.white.withOpacity(0.05)),
+                      getDrawingHorizontalLine: (value) => FlLine(color: Colors.white.withValues(alpha: 0.05)),
+                      getDrawingVerticalLine: (value) => FlLine(color: Colors.white.withValues(alpha: 0.05)),
                     ),
                     titlesData: FlTitlesData(
                       leftTitles: AxisTitles(
@@ -633,7 +644,7 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                           getTitlesWidget: (value, meta) {
                             return Text(
                               value.toInt().toString(),
-                              style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 9),
+                              style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 9),
                             );
                           },
                         ),
@@ -641,12 +652,17 @@ class _TrendAnalysisScreenState extends State<TrendAnalysisScreen> {
                       bottomTitles: AxisTitles(
                         sideTitles: SideTitles(
                           showTitles: true,
+                          interval: xInterval,
                           getTitlesWidget: (value, meta) {
+                            // Only show for exact multiples of interval to prevent duplicates
+                            if (value != value.toInt().toDouble() || value.toInt() % xInterval.toInt() != 0) {
+                              return const SizedBox.shrink();
+                            }
                             return Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 '${value.toInt()} pub(s)',
-                                style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 9),
+                                style: TextStyle(color: Colors.white.withValues(alpha: 0.5), fontSize: 9),
                               ),
                             );
                           },
