@@ -23,7 +23,7 @@ void main() {
 }
 
 class JournalTrendApp extends StatelessWidget {
-  const JournalTrendApp({Key? key}) : super(key: key);
+  const JournalTrendApp({super.key});
 
   @override
   Widget build(BuildContext context) {

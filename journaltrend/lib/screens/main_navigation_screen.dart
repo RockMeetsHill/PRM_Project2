@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 class MainNavigationScreen extends StatefulWidget {
   final Widget child;
 
-  const MainNavigationScreen({Key? key, required this.child}) : super(key: key);
+  const MainNavigationScreen({super.key, required this.child});
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
@@ -54,7 +54,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         selectedIndex: _currentIndex,
         onDestinationSelected: (index) => _onItemTapped(index, context),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        indicatorColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+        indicatorColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.search_outlined),
