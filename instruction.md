@@ -75,3 +75,25 @@ Vì đồ án yêu cầu phải có AI-Assisted Code Review trong báo cáo PDF:
 3. Nhấn chuột phải -> chọn **Copilot** -> **Review and Comment** (hoặc hỏi trong khung chat Copilot: *"Review this code for bugs, code smells, or improvements"*).
 4. **Chụp ảnh màn hình (Screenshot)** kết quả Copilot trả lời.
 5. Sửa 1-2 dòng code theo gợi ý của nó (ví dụ: tối ưu hàm, bắt thêm exception) rồi chụp lại ảnh để lấy minh chứng đưa vào Report.
+
+1. **List all available emulators** on your system:
+   ```bash
+   flutter emulators
+   ```
+
+2. **Launch a specific emulator** (e.g., `Small_Phone`):
+   ```bash
+   flutter emulators --launch Small_Phone
+   ```
+
+3. **Check connected devices** to ensure the emulator is online and get its device ID (e.g., `emulator-5554`):
+   ```bash
+   flutter devices
+   ```
+
+4. **Run the application** on the active emulator:
+   ```bash
+   flutter run -d emulator-5554
+   ```
+   *(Or simply run `flutter run` if it is the only active mobile device).*
+
