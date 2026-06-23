@@ -48,14 +48,14 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               // Beautiful Header
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 24, bottom: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Journal Trend Analyzer',
                       style: GoogleFonts.outfit(
-                        fontSize: 32,
+                        fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                         letterSpacing: -0.5,
@@ -65,7 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     Text(
                       'Explore academic growth, authors, and citation networks using OpenAlex API',
                       style: GoogleFonts.inter(
-                        fontSize: 14,
+                        fontSize: 13,
                         color: Colors.white60,
                       ),
                     ),
@@ -94,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     style: GoogleFonts.inter(color: Colors.white),
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
-                      hintText: 'Enter topic (e.g.Physics)',
+                      hintText: 'Enter topic(e.g.Physics)',
                       hintStyle: GoogleFonts.inter(color: Colors.white38),
                       prefixIcon: const Icon(Icons.search_rounded, color: Colors.white60),
                       suffixIcon: Padding(
@@ -106,12 +106,14 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           child: IconButton(
                             icon: const Icon(Icons.arrow_forward_rounded, color: Colors.white),
+                            padding: const EdgeInsets.all(10),
+                            constraints: const BoxConstraints(),
                             onPressed: _performSearch,
                           ),
                         ),
                       ),
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                     ),
                     onSubmitted: (_) => _performSearch(),
                   ),
