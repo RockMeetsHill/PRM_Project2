@@ -9,6 +9,7 @@ Group Members :
 Objectives :
 Display scientific journals trends by topic by calling OpenAlex API
 Display charts and summaries of current journal trends
+Code review by Kodus AI
 Runs on Android platform
 
 Technology used:
